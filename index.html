@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Omkar | solana-airdrop</title>
+    <script src="https://solana.github.io/web3.js/build/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <main>
+        <h1>AirDrop Sol</h1>
+        <form>
+          <label for="publicKey">Enter your wallet public key</label>
+          <input type="text" id="publicKey" placeholder="Public key" />
+          <div>
+            <input type="submit" value="Send 1 sol" />
+          </div>
+        </form>
+      </main>
+    </div>
+    <script>
+      const { Connection, PublicKey } = solanaWeb3;
+      const form = document.querySelector("form");
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        const publicKey = document.getElementById("publicKey").value;
+
+        // connection
+        const connection = new Connection("https://api.devnet.solana.com");
+
+        const publicKeyObject = new PublicKey(publicKey);
+
+        // 1e9 lamports = 10^9 lamports = 1 SOL
+        let txhash = await connection.requestAirdrop(publicKeyObject, 1e9);
+        console.log(`txhash: ${txhash}`);
+      };
+    </script>
+  </body>
+</html>
